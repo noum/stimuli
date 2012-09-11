@@ -1,13 +1,10 @@
 from achrolab.printing import CalibDataFile
-try:
-    from achrolab.eyeone import eyeone, EyeOneConstants
-except:
-    from achrolab.eyeone import EyeOne, EyeOneConstants
+from achrolab.eyeone import eyeone, constants
 from ctypes import c_float
 from contextlib import closing
 from psychopy import visual
 from psychopy import event
-import eizoGS320
+from monitor import eizoGS320
 import math
 import time
 import mondrian
@@ -48,34 +45,28 @@ class BaseMonitorTesting():
         if usingeizo==False:
             self.monitorsize=[1024,768]
             self.monitornum=0
-            try:
-                self.EyeOne = EyeOne.EyeOne(dummy=True) # EyeOne Object dummy
-            except:
-                self.EyeOne = eyeone.EyeOne(dummy=True)
+            self.EyeOne = eyeone.EyeOne(dummy=True)
         else:
             #self.monitorsize=[1024, 1536] #size of Eizo screen (half actualy monitor width)
             self.monitorsize=[2048, 1536] #size of Eizo screen (half actualy monitor width)
             self.monitornum=1
-            try:
-                self.EyeOne = eyeone.EyeOne(dummy=False) # Actual EyeOne Object
-            except:
-                self.EyeOne = EyeOne.EyeOne(dummy=False) # Actual EyeOne Object
+            self.EyeOne = eyeone.EyeOne(dummy=False) # Actual EyeOne Object
 
         if measuring==True:
-            if(self.EyeOne.I1_SetOption(EyeOneConstants.I1_MEASUREMENT_MODE,
-            EyeOneConstants.I1_SINGLE_EMISSION) == EyeOneConstants.eNoError):
+            if(self.EyeOne.I1_SetOption(constants.I1_MEASUREMENT_MODE,
+            constants.I1_SINGLE_EMISSION) == constants.eNoError):
                 print("Measurement mode set to single emission.")
             else:
                 print("Failed to set measurement mode.")
-            if(self.EyeOne.I1_SetOption(EyeOneConstants.COLOR_SPACE_KEY,
-                EyeOneConstants.COLOR_SPACE_CIExyY) == EyeOneConstants.eNoError):
+            if(self.EyeOne.I1_SetOption(constants.COLOR_SPACE_KEY,
+                constants.COLOR_SPACE_CIExyY) == constants.eNoError):
                 print("Color space set to CIExyY.")
             else:
                 print("Failed to set color space.")
 
             # Initialization of spectrum and colorspace
-            self.colorspace = (c_float * EyeOneConstants.TRISTIMULUS_SIZE)()
-            self.spectrum = (c_float * EyeOneConstants.SPECTRUM_SIZE)()
+            self.colorspace = (c_float * constants.TRISTIMULUS_SIZE)()
+            self.spectrum = (c_float * constants.SPECTRUM_SIZE)()
 
             self.checkCalibrate()
 
@@ -84,12 +75,13 @@ class BaseMonitorTesting():
         """
          This method is called to calibrate the EyeOne. Takes no arguments.
         """
-        if (self.calibrate or (self.EyeOne.I1_TriggerMeasurement() ==  EyeOneConstants.eDeviceNotCalibrated)):
+        if (self.calibrate or (self.EyeOne.I1_TriggerMeasurement() ==
+            constants.eDeviceNotCalibrated)):
         # Calibration of EyeOne
             print("\nPlease put EyeOne Pro on calibration plate and press \n key to start calibration.")
-            while(self.EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
+            while(self.EyeOne.I1_KeyPressed() != constants.eNoError):
                 time.sleep(0.1)
-            if (self.EyeOne.I1_Calibrate() == EyeOneConstants.eNoError):
+            if (self.EyeOne.I1_Calibrate() == constants.eNoError):
                 print("Calibration done.")
             else:
                 print("Calibration failed.")
@@ -133,10 +125,10 @@ class BaseMonitorTesting():
    ============== =============== =========== =======================================================================================================
 
         """
-        if(self.EyeOne.I1_TriggerMeasurement() != EyeOneConstants.eNoError):
+        if(self.EyeOne.I1_TriggerMeasurement() != constants.eNoError):
             print("Measurement failed.")
             # retrieve Color Space
-        if(self.EyeOne.I1_GetTriStimulus(self.colorspace, 0) != EyeOneConstants.eNoError):
+        if(self.EyeOne.I1_GetTriStimulus(self.colorspace, 0) != constants.eNoError):
             print("Failed to get color space.")
         else:
             print("Color Space " + str(self.colorspace[:]) + "\n")
@@ -191,9 +183,11 @@ class CRTTest(BaseMonitorTesting):
     Note that unlike most other stimuli, this does not rely on or produce any PNG files.
 
     **Example Code:**
+
 To display the test on the eizo black and white monitor::
    test=CRTTest(usingeizo=True)
    test.run()
+
    """
     def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="data", waittime=0.1, patchsize=0.5, centralstimgray=400, sinamplitude=1023, freq=0.01, sinoffset=0):
         BaseMonitorTesting.__init__(self, usingeizo=usingeizo, measuring=measuring, calibrate=calibrate, prefix=prefix, waittime=waittime)
@@ -279,7 +273,7 @@ class Mondrian(BaseMonitorTesting):
 
     **Example Image**:
 
-.. image:: mondrian20120713_1126.png
+.. image:: ../documentation-stimscripts/figures/mondrian20120713_1126.png
     :height: 200px
     :width: 200px
 
@@ -331,12 +325,20 @@ class Mondrian(BaseMonitorTesting):
 class Cornsweet(BaseMonitorTesting):
 
     """
-    This class is a wrapper for the Cornsweet generation code from TU Berlin. It produces a form of the Cornsweet illusion to PNG if no PNG file is provided in the pngfile argument, otherwise it will display the stimuli provided. Still need to fix the unencoded version.
+    This class is a wrapper for the Cornsweet generation code from TU
+    Berlin. It produces a form of the Cornsweet illusion to PNG if no PNG
+    file is provided in the pngfile argument, otherwise it will display the
+    stimuli provided. Still need to fix the unencoded version.
 
     TU Berlin notes:
         Create a matrix containing a rectangular Cornsweet edge stimulus.
-        The 2D luminance profile of the stimulus is defined as L = L_mean +/- (1 - X / w) ** a * L_mean * C/2 for the ramp and L = L_mean for the area beyond the ramp.
-        X is the distance to the edge, w is the width of the ramp, a is a variable determining the steepness of the ramp, and C is the contrast at the edge, defined as C = (L_max-L_min) / L_mean.
+        The 2D luminance profile of the stimulus is defined as L = L_mean
+        +/- (1 - X / w) ** a * L_mean * C/2 for the ramp and L = L_mean for
+        the area beyond the ramp.
+
+        X is the distance to the edge, w is the width of the ramp, a is a
+        variable determining the steepness of the ramp, and C is the
+        contrast at the edge, defined as C = (L_max-L_min) / L_mean.
 
 
 
@@ -365,19 +367,25 @@ class Cornsweet(BaseMonitorTesting):
 
     **References (from TU Berlin)**:
 
-    The formula and default values are taken from Boyaci, H., Fang, F., Murray, S.O., Kersten, D. (2007). Responses to Lightness Variations in Early Human Visual Cortex. Current Biology 17, 989-993.
+    The formula and default values are taken from Boyaci, H., Fang, F.,
+    Murray, S.O., Kersten, D. (2007). Responses to Lightness Variations in
+    Early Human Visual Cortex. Current Biology 17, 989-993.
 
     **Example Image**:
-.. image:: cornsweet20120814_1705.png
-    :height: 200px
-    :width: 200px
 
-**Example code**:
-Produce and display small Cornsweet Illusion image on normal monitor (be careful of the image size and monitor size when you make these stimuli)::
+    .. image:: ../documentation-stimscripts/figures/cornsweet20120814_1705.png
+        :height: 200px
+        :width: 200px
+
+    **Example code**:
+
+Produce and display small Cornsweet Illusion image on normal monitor (be
+careful of the image size and monitor size when you make these stimuli)::
 
    test=Cornsweet(usingeizo=False, encode=False, visualdegrees=[3,3]) #Create png file
    test=Cornsweet(pngfile="cornsweet20120831_1101.png") #Load png file
    test.run() #Display stimuli
+
    """
 
     def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="data", waittime=0.1, visualdegrees=None, ppd=128, contrast=1, ramp_width=3, exponent=2.75, mean_lum=511, pngfile=None, encode=True):
@@ -451,7 +459,7 @@ class Todorovic(BaseMonitorTesting):
 
     **Example Image**:
 
-.. image:: todorovic20120814_1705.png
+.. image:: ../documentation-stimscripts/figures/todorovic20120814_1705.png
     :height: 200px
     :width: 200px
 
@@ -535,13 +543,13 @@ class WhiteIllusion(BaseMonitorTesting):
 
 Gilchrist:
 
-.. image:: whiteillusiongil20120815_1138.png
+.. image:: ../documentation-stimscripts/figures/whiteillusiongil20120815_1138.png
    :height: 200px
    :width: 200px
 
 Blakeslee, McCourt:
 
-.. image:: whiteillusionbmcc20120814_1705.png
+.. image:: ../documentation-stimscripts/figures/whiteillusionbmcc20120814_1705.png
    :height: 200px
    :width: 200px
 
@@ -752,7 +760,7 @@ class Lines(BaseMonitorTesting):
         self.n=0
         if self.measuring==True:
             print("\nPlease put EyeOne Pro in measurement position and press \n key to start measurement.")
-            while(self.EyeOne.I1_KeyPressed() != EyeOneConstants.eNoError):
+            while(self.EyeOne.I1_KeyPressed() != constants.eNoError):
                 time.sleep(0.1)
             print("Starting measurement...")
         self.runningLoop()

@@ -1,9 +1,11 @@
+import sys
+sys.path.append("../achrolabutils")
+
 from stimuliclass import Mondrian
 import numpy as np
 import Image
 import time
-import eizoGS320
-import sys
+from monitor import eizoGS320
 
 
 """ articulated.py :
