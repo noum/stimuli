@@ -14,7 +14,7 @@
 # input: justmeasure_color_20120519_1121.txt
 # output: /figures/tubes_over_time.pdf
 #
-# last mod 2012-05-21, NU
+# last mod 
 
 #setwd("Z:/AG_Heller/calibdata/measurements/calibdata")
 

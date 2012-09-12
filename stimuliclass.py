@@ -414,7 +414,7 @@ careful of the image size and monitor size when you make these stimuli)::
             self.pngfile=pngfile
 
     def run(self):
-        """ This is the main loop for presenting the stimuli, so after intialising the stimuli, call object.run() to present it. """
+        """ This is the main loop for presenting the stimuli, so after initialising the stimuli, call object.run() to present it. """
 
         self.showStimuliFromPNG(self.pngfile)
         self.runningLoop()
@@ -422,13 +422,18 @@ careful of the image size and monitor size when you make these stimuli)::
 class Todorovic(BaseMonitorTesting):
 
     """
-    This class is a wrapper for the Todorovic checkerboard generation code from TU Berlin. It produces a form of the Torodovic checkerboard illusion to PNG if no PNG file is provided in the pngfile argument, otherwise it will display the stimuli provided. Still need to fix the unencoded version.
+    This class is a wrapper for the Todorovic checkerboard generation code
+    from TU Berlin. It produces a form of the Torodovic checkerboard
+    illusion to PNG if no PNG file is provided in the pngfile argument,
+    otherwise it will display the stimuli provided. Still need to fix the
+    unencoded version.
 
-    Note that it works by first producing an appropriate Cornsweet stimulus and then repeating this.
+    Note that it works by first producing an appropriate Cornsweet stimulus
+    and then repeating this.
 
     TU Berlin notes:
-        Create a checkerboard illusion by appropriately aligning COC stimuli, in the way demonstrated by Todorovic (1987).
-
+        Create a checkerboard illusion by appropriately aligning COC
+        stimuli, in the way demonstrated by Todorovic (1987).
 
 
     This class inherits from BaseMonitorTesting.

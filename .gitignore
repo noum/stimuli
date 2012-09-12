@@ -1,9 +1,9 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
+*.pyc
+*.pdf
+*.pkl
+*.csv
+*.swp
+*.bmp
+*.png
+*.db
 
-# Project property files
-.actionScriptProperties
-.flexProperties
-.settings/
-.project

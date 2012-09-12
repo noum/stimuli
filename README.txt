@@ -1,7 +1,8 @@
 StimScripts
 ===========
 
-Repository of scripts for porting stimuli to psychopy
+Repository of scripts for porting stimuli to psychopy. This code is based
+on TUBvision (https://github.com/TUBvision/TUBvision).
 
 You can find an original version of this repository at
 https://github.com/jamesmcm/StimScripts. James wrote these scripts as part
