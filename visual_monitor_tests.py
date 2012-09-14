@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-# ./measure_stripes.py
+# ./visual_monitor_tests.py
 #
 # (c) 2012 Nora Umbach <colorlab[at]psycho.uni-tuebingen.de>
 #
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
-# content: (1) Measure luminance of monitor:
-#               (1.1) horizontal stripes
-#               (1.2) vertical stripes
+# content: (1) Measure luminance of monitor with horizontal and vertical
+#              stripes
 #
 # input: --
 # output: --
@@ -33,7 +32,7 @@ mywin = visual.Window([1024,1536], monitor='mymon', color=(155,155,17),
 
 #eyeone.calibrate()
 
-###### (1) Measure luminance of monitor ######
+###### (1) Measure luminance of monitor with h- and v-stripes ######
 
 lines = Lines(usingeizo=True, measuring=True, calibrate=True,
         prefix="../achrolabutils/calibdata/measurements/lines_linewidth8_box",
