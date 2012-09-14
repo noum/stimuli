@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-# ./visual_monitor_tests.py
+# ./measure_lines.py
 #
 # (c) 2012 Nora Umbach <colorlab[at]psycho.uni-tuebingen.de>
 #
@@ -24,13 +24,6 @@ from achrolab.eyeone.eyeone import EyeOne
 from monitor import eizoGS320
 
 from stimuliclass import Lines
-
-eyeone = EyeOne()
-
-mywin = visual.Window([1024,1536], monitor='mymon', color=(155,155,17),
-        screen=1, colorSpace="rgb255", allowGUI=False)
-
-#eyeone.calibrate()
 
 ###### (1) Measure luminance of monitor with h- and v-stripes ######
 
