@@ -1,0 +1,29 @@
+# created 2012-09-14, NU
+# last worked on 2012-09-14, NU
+
+
+## Things to change in stimuliclass.py
+
+# general (for all classes)
+- prefix= defaulr should be set to
+  "D:/software/achrolabutils/calibdata/measurements/"
+- if measuring=False no data file should be created
+- there is a long pause after eyeone calibration or before stimuli start
+  --> try to get rid of it
+
+# CRTTest
+- winType="pygame" does not show on eizoGS320
+- prompt for starting measurement is missing
+
+# SinGrating
+- prompt for starting measurement is missing
+- change frequency of sine curve (right now only amplitude can be changed)
+  --> I think that's why it's not working 
+
+# PatchBrightnessTest
+- There should only be one patch when using eizo
+
+
+## Try out all classes and functions and look for bugs (and stuff that is
+## not useful in general)
+
