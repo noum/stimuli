@@ -19,6 +19,8 @@
 import sys
 sys.path.append("../achrolabutils")
 
+from psychopy import visual
+
 from achrolab.eyeone.eyeone import EyeOne
 from monitor import eizoGS320
 
@@ -29,12 +31,13 @@ eyeone = EyeOne()
 mywin = visual.Window([1024,1536], monitor='mymon', color=(155,155,17),
         screen=1, colorSpace="rgb255", allowGUI=False)
 
-eyeone.calibrate()
+#eyeone.calibrate()
 
 ###### (1) Measure luminance of monitor ######
 
-lines = Lines(usingeizo=True, measuring=True, calibrate=False, prefix="",
-        linewidth=5, monitorsize=[2048, 1536], lowgray=0, highgray=1023)
+lines = Lines(usingeizo=True, measuring=True, calibrate=True,
+        prefix="../achrolabutils/calibdata/measurements/lines_linewidth8_box",
+        linewidth=8, monitorsize=[2048, 1536], lowgray=0, highgray=1023)
 
 lines.run()
 
