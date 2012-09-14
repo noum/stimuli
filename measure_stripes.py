@@ -22,7 +22,7 @@ sys.path.append("../achrolabutils")
 from achrolab.eyeone.eyeone import EyeOne
 from monitor import eizoGS320
 
-from stimuliclass import SquareWave
+from stimuliclass import Lines
 
 eyeone = EyeOne()
 
@@ -33,6 +33,8 @@ eyeone.calibrate()
 
 ###### (1) Measure luminance of monitor ######
 
-SquareWave(usingeizo=True, measuring=True, calibrate=False, prefix="",
-        frequency=5)
+lines = Lines(usingeizo=True, measuring=True, calibrate=False, prefix="",
+        linewidth=5, monitorsize=[2048, 1536], lowgray=0, highgray=1023)
+
+lines.run()
 
