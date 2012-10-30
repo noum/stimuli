@@ -14,7 +14,7 @@
 #         stimulilistnc_*.txt
 #
 # created
-# last mod 2012-10-23 14:49 KS
+# last mod 2012-10-30 10:42 KS
 
 """
 Produce articulated stimuli for experiments. Produces stimuli both with and
@@ -64,11 +64,15 @@ if __name__ == '__main__':
 
             leftweights = []
             for i in range(1023):
-                leftweights.append(((1.0/(leftweightsvar * np.sqrt(2*np.pi))) * np.exp(-0.5*(((i-leftweightsmean)/leftweightsvar)**2))))
+                leftweights.append(((1.0/(leftweightsvar * np.sqrt(2*np.pi))) *
+                                    np.exp(-0.5*(((i-leftweightsmean) /
+                                                  leftweightsvar)**2))))
 
             rightweights = []
             for i in range(1023):
-                rightweights.append(((1.0/(rightweightsvar * np.sqrt(2*np.pi))) * np.exp(-0.5*(((i-rightweightsmean)/rightweightsvar)**2))))
+                rightweights.append(((1.0/(rightweightsvar * np.sqrt(2*np.pi))) *
+                                     np.exp(-0.5*(((i-rightweightsmean) /
+                                                   rightweightsvar)**2))))
 
 
             rightweights = rightweights/sum(rightweights)
@@ -118,9 +122,19 @@ if __name__ == '__main__':
             # newarray[:,:,2] = np.uint8(bigarray[:,:]/4)
             newarray = eizoGS320.encode_np_array(bigarray)
             pil_im = Image.fromarray(newarray)
-            pngfile = "stimuli/ac"+str(leftweightsmean)+"_"+str(leftweightsvar)+"_"+str(leftgrayminus)+"_"+str(rightweightsmean)+"_"+str(rightweightsvar)+"_"+str(rightgrayminus)+"_"+str(BGGRAY)+"_"+str(seedleft)+"_"+str(seedright)+".png"
+            pngfile = ("stimuli/ac" + str(leftweightsmean) + "_" +
+                       str(leftweightsvar) + "_" + str(leftgrayminus) + "_" +
+                       str(rightweightsmean) + "_" + str(rightweightsvar) + "_"
+                       + str(rightgrayminus)+"_" + str(BGGRAY) + "_" +
+                       str(seedleft) + "_" + str(seedright) + ".png")
 
-            fileoutac.write("trial(['"+str(pngfile)+"', "+str(leftweightsmean)+","+str(leftweightsvar)+","+str(leftgrayminus)+","+str(rightweightsmean)+","+str(rightweightsvar)+","+str(rightgrayminus)+","+str(BGGRAY)+","+str(seedleft)+","+str(seedright)+"], 'left', outputFile)\n")
+            fileoutac.write("trial(['" + str(pngfile) + "', " +
+                            str(leftweightsmean) + "," + str(leftweightsvar) +
+                            "," + str(leftgrayminus) + "," +
+                            str(rightweightsmean) + "," + str(rightweightsvar)
+                            + "," + str(rightgrayminus) + "," + str(BGGRAY) +
+                            "," + str(seedleft) + "," + str(seedright) +
+                            "], 'left', outputFile)\n")
             pil_im.save(pngfile)
 
             #do NC image
@@ -137,7 +151,11 @@ if __name__ == '__main__':
             # newarray[:,:,2] = np.uint8(bigarray[:,:]/4)
             newarray = eizoGS320.encode_np_array(bigarray)
             pil_im  =  Image.fromarray(newarray)
-            pngfile = "stimuli/nc"+str(leftweightsmean)+"_"+str(leftweightsvar)+"_"+str(leftgrayminus)+"_"+str(rightweightsmean)+"_"+str(rightweightsvar)+"_"+str(rightgrayminus)+"_"+str(BGGRAY)+"_"+str(seedleft)+"_"+str(seedright)+".png"
+            pngfile = ("stimuli/nc" + str(leftweightsmean) + "_" +
+                       str(leftweightsvar) + "_" + str(leftgrayminus) + "_" +
+                       str(rightweightsmean) + "_" + str(rightweightsvar) + "_"
+                       + str(rightgrayminus) + "_" + str(BGGRAY) + "_" +
+                       str(seedleft) + "_" + str(seedright) + ".png")
 
             fileoutnc.write("trial(['"+str(pngfile)+"', "+str(leftweightsmean)+","+str(leftweightsvar)+","+str(leftgrayminus)+","+str(rightweightsmean)+","+str(rightweightsvar)+","+str(rightgrayminus)+","+str(BGGRAY)+","+str(seedleft)+","+str(seedright)+"], 'left', outputFile)\n")
             pil_im.save(pngfile)

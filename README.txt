@@ -14,4 +14,3 @@ recent version.
 Documentation for this package can be found here:
 https://github.com/noum/documentation-stimscripts
 
-
