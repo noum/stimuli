@@ -1,5 +1,5 @@
-StimScripts
-===========
+stimuli
+=======
 
 Repository of scripts for porting stimuli to psychopy. This code is based
 on TUBvision (https://github.com/TUBvision/TUBvision).
@@ -12,6 +12,6 @@ maintaining it after he left, so what you find here is probably the most
 recent version.
 
 Documentation for this package can be found here:
-https://github.com/noum/documentation-stimscripts
+https://github.com/noum/documentation-stimuli
 
 
