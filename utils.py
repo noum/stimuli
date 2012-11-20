@@ -1,5 +1,19 @@
-#! /usr/bin/python
-# -*- coding: latin-1 -*-
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+# ./mondrian.py
+#
+# (c) 2012 James McMurray, Konstantin Sering, Nora Umbach
+# <colorlab[at]psycho.uni-tuebingen.de>
+#
+# GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
+#
+# content: produce mondrian stimuli
+#
+# input: --
+# output: --
+#
+# created
+# last mod 2012-10-30 15:48 KS
 
 import numpy as np
 try:
@@ -10,16 +24,16 @@ except ImportError:
 
 def write_array_to_image(filename, arr):
     """
-Save a 2D numpy array as a grayscale image file.
+    Save a 2D numpy array as a grayscale image file.
 
-Parameters
-----------
-filename : str
-full path to the file to be creaated.
-arr : 2D numpy array
-The data to be stored in the image. Values will be cropped to
-[0,255].
-"""
+    Parameters
+    ----------
+    filename : str
+        full path to the file to be creaated.
+    arr : 2D numpy array
+        The data to be stored in the image. Values will be cropped to
+        [0,255].
+    """
     if Image:
         imsize = arr.shape
         im = Image.new('L', (imsize[1], imsize[0]))
@@ -28,24 +42,28 @@ The data to be stored in the image. Values will be cropped to
 
 def luminance2munsell(lum_values, reference_white):
     """
-Transform luminance values into Munsell values.
-The luminance values do not have to correspond to specific units, as long
-as they are in the same unit as the reference white, because Munsell values
-are a perceptually uniform scale of relative luminances.
-Parameters
-----------
-lum_values : numpy-array
-reference_white : number
+    Transform luminance values into Munsell values.
 
-Returns
--------
-munsell_values : numpy-array
+    The luminance values do not have to correspond to specific units, as long
+    as they are in the same unit as the reference white, because Munsell values
+    are a perceptually uniform scale of relative luminances.
 
-Reference: H. Pauli, "Proposed extension of the CIE recommendation
-on 'Uniform color spaces, color difference equations, and metric color
-terms'," J. Opt. Soc. Am. 66, 866-867 (1976)
-"""
+    Parameters
+    ----------
+    lum_values : numpy-array
+    reference_white : number
 
+    Returns
+    -------
+    munsell_values : numpy-array
+
+    Reference
+    ---------
+    H. Pauli, "Proposed extension of the CIE recommendation
+    on 'Uniform color spaces, color difference equations, and metric color
+    terms'," J. Opt. Soc. Am. 66, 866-867 (1976)
+
+    """
     x = lum_values / float(reference_white)
     idx = x <= (6. / 29) ** 3
     y1 = 841. / 108 * x[idx] + 4. / 29
@@ -57,22 +75,27 @@ terms'," J. Opt. Soc. Am. 66, 866-867 (1976)
 
 def munsell2luminance(munsell_values, reference_white):
     """
-Transform Munsell values to luminance values.
-The luminance values will be in the same unit as the reference white, which
-can be arbitrary as long as the scale is linear.
-Parameters
-----------
-munsell_values : numpy-array
-reference_white : number
+    Transform Munsell values to luminance values.
 
-Returns
--------
-lum_values : numpy-array
+    The luminance values will be in the same unit as the reference white, which
+    can be arbitrary as long as the scale is linear.
 
-Reference: H. Pauli, "Proposed extension of the CIE recommendation
-on 'Uniform color spaces, color difference equations, and metric color
-terms'," J. Opt. Soc. Am. 66, 866-867 (1976)
-"""
+    Parameters
+    ----------
+    munsell_values : numpy-array
+    reference_white : number
+
+    Returns
+    -------
+    lum_values : numpy-array
+
+    Reference
+    ---------
+    H. Pauli, "Proposed extension of the CIE recommendation
+    on 'Uniform color spaces, color difference equations, and metric color
+    terms'," J. Opt. Soc. Am. 66, 866-867 (1976)
+
+    """
     lum_values = (munsell_values + 1.6) / 11.6
     idx = lum_values <= 6. / 29
     lum_values[idx] = (lum_values[idx] - 4. / 29) / 841 * 108
@@ -81,45 +104,46 @@ terms'," J. Opt. Soc. Am. 66, 866-867 (1976)
 
 def degrees_to_pixels(degrees, ppd):
     """
-convert degrees of visual angle to pixels, given the number of pixels in
-1deg of visual angle.
+    convert degrees of visual angle to pixels, given the number of pixels in
+    1deg of visual angle.
 
-Parameters
-----------
-degrees : number or ndarray
-the degree values to be converted.
-ppd : number
-the number of pixels in the central 1 degree of visual angle.
+    Parameters
+    ----------
+    degrees : number or ndarray
+        the degree values to be converted.
+    ppd : number
+        the number of pixels in the central 1 degree of visual angle.
 
-Returns
--------
-pixels : number or ndarray
-"""
+    Returns
+    -------
+    pixels : number or ndarray
+    """
     return np.tan(np.radians(degrees / 2.)) / np.tan(np.radians(.5)) * ppd
 
 def pad_array(arr, amount, pad_value=0):
     """
-Pad array with an arbitrary value. So far, only works for 2D arrays.
+    Pad array with an arbitrary value. So far, only works for 2D arrays.
 
-Parameters
-----------
-arr : numpy ndarray
-the array to be padded
-amount : number or numpy ndarray
-the amount of padding in each direction. Has to be of shape
-len(arr.shape) X 2. the n-th row specifies the amount of padding
-to be added to the n-th dimension of arr. The first value is the
-amount of padding added before, the second value after the array.
-If amount is a single number, it is used for padding in all
-directions.
-pad_value : number, optional
-the value to be padded. Default is 0.
+    Parameters
+    ----------
+    arr : numpy ndarray
+        the array to be padded
+    amount : number or numpy ndarray
+        the amount of padding in each direction. Has to be of shape
+        len(arr.shape) X 2. the n-th row specifies the amount of padding
+        to be added to the n-th dimension of arr. The first value is the
+        amount of padding added before, the second value after the array.
+        If amount is a single number, it is used for padding in all
+        directions.
+    pad_value : number, optional
+        the value to be padded. Default is 0.
 
-Returns
--------
-output : numpy ndarray
-the padded array
-"""
+    Returns
+    -------
+    output : numpy ndarray
+        the padded array
+
+    """
     # if amount is a single number, use it for padding in all directions
     if type(amount) is int or type(amount) is float:
         amount = np.array(((amount, amount), (amount, amount)))
@@ -138,20 +162,21 @@ the padded array
 
 def resize_array(arr, factor):
     """
-Return a copy of an array, resized by the given factor. Every value is
-repeated factor[d] times along dimension d.
+    Return a copy of an array, resized by the given factor. Every value is
+    repeated factor[d] times along dimension d.
 
-Parameters
-----------
-arr : 2D array
-the array to be resized
-factor : tupel of 2 ints
-the resize factor in the y and x dimensions
+    Parameters
+    ----------
+    arr : 2D array
+        the array to be resized
+    factor : tupel of 2 ints
+        the resize factor in the y and x dimensions
 
-Returns
--------
-An array of shape (arr.shape[0] * factor[0], arr.shape[1] * factor[1])
-"""
+    Returns
+    -------
+    An array of shape (arr.shape[0] * factor[0], arr.shape[1] * factor[1])
+
+    """
     x_idx = np.arange(0, arr.shape[1], 1. / factor[1]).astype(int)
     y_idx = np.arange(0, arr.shape[0], 1. / factor[0]).astype(int)
     return arr[:, x_idx][y_idx, :]

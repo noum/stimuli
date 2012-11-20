@@ -1,5 +1,5 @@
 # created 2012-09-14, NU
-# last worked on 2012-09-14, NU
+# last worked on 2012-10-30, KS
 
 
 ## Things to change in stimuliclass.py
@@ -26,4 +26,13 @@
 
 ## Try out all classes and functions and look for bugs (and stuff that is
 ## not useful in general)
+
+## What is the correct header? Under which license is the TUB code
+released? How to write this into the header?
+
+# Probably affected files:
+- stimuli.py
+- stimuliclass.py
+- mondrian.py
+- articulated.py
 

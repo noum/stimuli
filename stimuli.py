@@ -1,5 +1,9 @@
 #!/usr/bin/env python
-"""Module collecting different functions to create visual stimuli."""
+
+"""
+Module collecting different functions to create visual stimuli.
+
+"""
 
 import numpy as np
 
@@ -23,7 +27,7 @@ def cornsweet(size, ppd, contrast, ramp_width=3, exponent=2.75,
     ppd : number
           the number of pixels in one degree of visual angle
     contrast : number in [0,1]
-               the contrast at the Cornsweet edge, defined as 
+               the contrast at the Cornsweet edge, defined as
                (max_luminance - min_luminance) / mean_luminance
     ramp_width : number (optional)
                  the width of the luminance ramp in degrees of visual angle.
@@ -38,7 +42,7 @@ def cornsweet(size, ppd, contrast, ramp_width=3, exponent=2.75,
     Returns
     -------
     stim : 2D ndarray
-           
+
     References
     ----------
     The formula and default values are taken from Boyaci, H., Fang, F., Murray,
@@ -47,7 +51,7 @@ def cornsweet(size, ppd, contrast, ramp_width=3, exponent=2.75,
     """
     # compute size as the closest even number of pixel corresponding to the
     # size given in degrees of visual angle.
-    size = np.round(np.tan(np.radians(np.array(size) / 2.)) / 
+    size = np.round(np.tan(np.radians(np.array(size) / 2.)) /
                  np.tan(np.radians(.5)) * ppd / 2) * 2
     stim = np.ones(size) * mean_lum
     dist = np.arange(size[1] / 2 )
@@ -108,10 +112,10 @@ def square_wave(shape, ppd, contrast, frequency, mean_lum=.5, period='ignore',
     ppd : number
           the number of pixels in one degree of visual angle
     contrast : number in [0,1]
-               the contrast of the grating, defined as 
+               the contrast of the grating, defined as
                (max_luminance - min_luminance) / mean_luminance
     frequency : number
-                the spatial frequency of the wave in cycles per degree 
+                the spatial frequency of the wave in cycles per degree
     mean_lum : number
                the mean luminance of the grating, i.e. (max_lum + min_lum) / 2.
                The average luminance of the actual stimulus can differ slightly
@@ -131,8 +135,9 @@ def square_wave(shape, ppd, contrast, frequency, mean_lum=.5, period='ignore',
     -------
     stim : 2D ndarray
            the square wave stimulus
+
     """
-    
+
     if not period in ['ignore', 'full', 'half']:
         raise TypeError('size not understood: %s' % period)
     if not start in ['high', 'low']:
@@ -152,7 +157,7 @@ def square_wave(shape, ppd, contrast, frequency, mean_lum=.5, period='ignore',
     high = mean_lum + diff
     low = mean_lum - diff
     stim = np.ones(shape) * (low if start is 'high' else high)
-    index = [i + j for i in range(pixels_per_cycle / 2) 
+    index = [i + j for i in range(pixels_per_cycle / 2)
                       for j in range(0, shape[1], pixels_per_cycle)
                       if i + j < shape[1]]
     stim[:, index] = low if start is 'low' else high
@@ -171,10 +176,10 @@ def whites_illusion_bmcc(shape, ppd, contrast, frequency, mean_lum=.5,
     ppd : number
           the number of pixels in one degree of visual angle
     contrast : number in [0,1]
-               the contrast of the grating, defined as 
+               the contrast of the grating, defined as
                (max_luminance - min_luminance) / mean_luminance
     frequency : number
-                the spatial frequency of the wave in cycles per degree 
+                the spatial frequency of the wave in cycles per degree
     mean_lum : number
                the mean luminance of the grating, i.e. (max_lum + min_lum) / 2.
                The average luminance of the actual stimulus can differ slightly
@@ -198,10 +203,10 @@ def whites_illusion_bmcc(shape, ppd, contrast, frequency, mean_lum=.5,
                         start)
     half_cycle = int(degrees_to_pixels(1. / frequency / 2, ppd) + .5)
     stim[stim.shape[0] / 3: stim.shape[0] / 3 * 2,
-         stim.shape[1] / 2 - 2 * half_cycle: 
+         stim.shape[1] / 2 - 2 * half_cycle:
             stim.shape[1] / 2 - half_cycle] = mean_lum
     stim[stim.shape[0] / 3: stim.shape[0] / 3 * 2,
-         stim.shape[1] / 2 + half_cycle: 
+         stim.shape[1] / 2 + half_cycle:
             stim.shape[1] / 2 + 2 * half_cycle] = mean_lum
     return stim
 
@@ -218,10 +223,10 @@ def whites_illusion_gil(shape, ppd, contrast, frequency, mean_lum=.5,
     ppd : number
           the number of pixels in one degree of visual angle
     contrast : number in [0,1]
-               the contrast of the grating, defined as 
+               the contrast of the grating, defined as
                (max_luminance - min_luminance) / mean_luminance
     frequency : number
-                the spatial frequency of the wave in cycles per degree 
+                the spatial frequency of the wave in cycles per degree
     mean_lum : number
                the mean luminance of the grating, i.e. (max_lum + min_lum) / 2.
                The average luminance of the actual stimulus can differ slightly
@@ -243,11 +248,11 @@ def whites_illusion_gil(shape, ppd, contrast, frequency, mean_lum=.5,
     stim = square_wave(shape, ppd, contrast, frequency, mean_lum, 'half',
                         start)
     half_cycle = int(degrees_to_pixels(1. / frequency / 2, ppd) + .5)
-    on_dark_idx = [i for i in range(int(half_cycle * 2.5), 
-                                        int(stim.shape[1] - half_cycle * .5)) 
+    on_dark_idx = [i for i in range(int(half_cycle * 2.5),
+                                        int(stim.shape[1] - half_cycle * .5))
                         if stim[0, i] < mean_lum]
-    on_light_idx = [i for i in range(int(half_cycle * 1.5), 
-                                        int(stim.shape[1] - half_cycle * 1.5)) 
+    on_light_idx = [i for i in range(int(half_cycle * 1.5),
+                                        int(stim.shape[1] - half_cycle * 1.5))
                         if stim[0, i] > mean_lum]
     stim[stim.shape[0] / 5: stim.shape[0] / 5 * 2, on_light_idx] = mean_lum
     stim[stim.shape[0] / 5 * 3: stim.shape[0] / 5 * 4, on_dark_idx] = mean_lum
@@ -257,9 +262,9 @@ def whites_illusion_gil(shape, ppd, contrast, frequency, mean_lum=.5,
     bg = stim[0, half_cycle]
     for start_idx in range(0 if start is 'low' else half_cycle,
                             stim.shape[1] - half_cycle, 2 * half_cycle):
-        
-        stim[0 : np.random.randint(max_cut), 
+
+        stim[0 : np.random.randint(max_cut),
                 start_idx : start_idx + half_cycle] = bg
-        stim[stim.shape[0] - np.random.randint(max_cut):, 
+        stim[stim.shape[0] - np.random.randint(max_cut):,
                 start_idx : start_idx + half_cycle] = bg
     return stim
