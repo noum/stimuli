@@ -11,6 +11,5 @@ of an internship for our colorlab
 maintaining it after he left, so what you find here is probably the most
 recent version.
 
-Documentation for this package can be found here:
-https://github.com/noum/documentation-stimuli
+Documentation for this package can be found in the folder doc.
 
