@@ -320,7 +320,7 @@ class Mondrian(BaseMonitorTesting):
     Example Image
     -------------
 
-    .. image:: ../documentation-stimscripts/figures/mondrian20120713_1126.png
+    .. image:: doc/figures/mondrian20120713_1126.png
         :height: 200px
         :width: 200px
 
@@ -423,7 +423,7 @@ class Cornsweet(BaseMonitorTesting):
     Example Image
     -------------
 
-    .. image:: ../documentation-stimuli/figures/cornsweet20120814_1705.png
+    .. image:: doc/figures/cornsweet20120814_1705.png
         :height: 200px
         :width: 200px
 
@@ -523,7 +523,7 @@ class Todorovic(BaseMonitorTesting):
     Example Image
     -------------
 
-    .. image:: ../documentation-stimscripts/figures/todorovic20120814_1705.png
+    .. image:: doc/figures/todorovic20120814_1705.png
         :height: 200px
         :width: 200px
 
@@ -614,13 +614,13 @@ class WhiteIllusion(BaseMonitorTesting):
 
     Gilchrist:
 
-    .. image:: ../documentation-stimscripts/figures/whiteillusiongil20120815_1138.png
+    .. image:: doc/figures/whiteillusiongil20120815_1138.png
         :height: 200px
         :width: 200px
 
     Blakeslee, McCourt:
 
-    .. image:: ../documentation-stimscripts/figures/whiteillusionbmcc20120814_1705.png
+    .. image:: doc/figures/whiteillusionbmcc20120814_1705.png
         :height: 200px
         :width: 200px
 
