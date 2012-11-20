@@ -1,19 +1,20 @@
-# last mod 2012-11-20 12:02 KS
+# last mod 2012-11-20 17:10 KS
 
-from achrolab.printing import CalibDataFile
-from achrolab.eyeone import eyeone, constants
 from ctypes import c_float
 from contextlib import closing
 from psychopy import visual
 from psychopy import event
-from monitor import eizoGS320
 import math
 import time
 import mondrian
 import Image
 import numpy as np
+
+import eizoGS320
 from stimuli import (cornsweet, todorovic, whites_illusion_bmcc,
                      whites_illusion_gil, square_wave)
+from achrolab.printing import CalibDataFile
+from achrolab.eyeone import eyeone, constants
 
 
 class BaseMonitorTesting():

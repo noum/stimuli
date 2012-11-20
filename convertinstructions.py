@@ -14,7 +14,7 @@
 #         stimulilistnc_*.txt
 #
 # created
-# last mod 2012-10-30 10:47 KS
+# last mod 2012-11-20 17:09 KS
 
 """
 This script converts a bunch of png files into the corresponding png files,
@@ -22,7 +22,7 @@ that have the format to be shown on the eizoGS320.
 
 """
 
-from monitor import eizoGS320
+import eizoGS320
 
 filenames=["ende.png", "ende_training_left.png", "ende_training_right.png",
            "instructions1.png", "instructions2_left.png",
