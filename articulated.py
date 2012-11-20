@@ -14,7 +14,7 @@
 #         stimulilistnc_*.txt
 #
 # created
-# last mod 2012-10-30 10:42 KS
+# last mod 2012-11-20 17:09 KS
 
 """
 Produce articulated stimuli for experiments. Produces stimuli both with and
@@ -30,7 +30,7 @@ from stimuliclass import Mondrian
 import numpy as np
 import Image
 import time
-from monitor import eizoGS320
+import eizoGS320
 
 MONITORSIZE = [2048, 1536]
 BGGRAY = 621
