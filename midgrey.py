@@ -24,9 +24,11 @@ class Stimulus(object):
     """
     This class is for the EIZO GS320.
 
-    """"
+    """
+
     def __init__(self, win, grey_left, grey_mid, grey_right, grey_background,
             name=None):
+
         """
         Paramters
         ---------
