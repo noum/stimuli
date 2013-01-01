@@ -1,7 +1,6 @@
-# last mod 2013-01-01 12:58 KS
+# last mod 2013-01-01 13:25 KS
 
 from ctypes import c_float
-from contextlib import closing
 from psychopy import visual
 from psychopy import event
 import math
@@ -16,7 +15,7 @@ from tub_stimuli import (cornsweet, todorovic, whites_illusion_bmcc,
 from achrolab.printing import CalibDataFile
 from achrolab.eyeone import eyeone, constants
 
-class BaseMonitorTesting():
+class BaseMonitorTesting(object):
     """
     BaseMonitorTesting provides the basic methods for monitor testing - i.e.
     collecting data from the EyeOne, and presenting stimuli from images.
@@ -40,9 +39,10 @@ class BaseMonitorTesting():
     (due to the halving of the size with the graphics card) and 1024x768 if not
     using this monitor (i.e. for testing).
 
-   """
+    """
 
-    def __init__(self, usingeizo=False, measuring=False, calibrate=True, prefix="data", waittime=0.01):
+    def __init__(self, usingeizo=False, measuring=False, calibrate=True,
+            prefix="D:/software/achrolabutils/calibdata/measurements/data", waittime=0.01):
 
         self.measuring=measuring
         self.usingeizo=usingeizo
@@ -123,7 +123,7 @@ class BaseMonitorTesting():
             self.imagestim.draw()
             self.window.flip()
 
-        self.drawFunction=drawFunction
+        self.drawFunction = drawFunction
 
     def collectData(self, datafile):
         """
@@ -148,7 +148,7 @@ class BaseMonitorTesting():
             print("Failed to get color space.")
         else:
             print("Color Space " + str(self.colorspace[:]) + "\n")
-            datafile.writeDataTXT(grayvals=self.grayvals, rgb=None, xyY=self.colorspace, voltage=None, spec_list=None, delimiter="\t")
+            datafile.write_data_txt(grayvals=self.grayvals, rgb=None, xyY=self.colorspace, voltage=None, spec_list=None, delimiter="\t")
 
     def runningLoop(self):
         """
@@ -159,18 +159,26 @@ class BaseMonitorTesting():
         must be set.
 
         """
-        running=True
-        with closing(CalibDataFile(prefix=self.prefix)) as datafile:
-            while running==True:
-                self.keys=event.getKeys()
+        running = True
+        if self.measuring:
+            with CalibDataFile(prefix=self.prefix) as datafile:
+                while running:
+                    self.keys = event.getKeys()
+                    for thiskey in self.keys:
+                        if thiskey in ['q', 'escape']:
+                            running = False
+                            break
+                    self.drawFunction()
+                    self.collectData(datafile)
+                    time.sleep(self.waittime)
+        else:
+            while running:
+                self.keys = event.getKeys()
                 for thiskey in self.keys:
                     if thiskey in ['q', 'escape']:
-                        running=False
+                        running = False
                         break
-
                 self.drawFunction()
-                if self.measuring==True:
-                    self.collectData(datafile)
                 time.sleep(self.waittime)
 
 
@@ -218,8 +226,8 @@ class CRTTest(BaseMonitorTesting):
         >>> test = CRTTest(usingeizo=True)
         >>> test.run()
 
-   """
-    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="data", waittime=0.1, patchsize=0.5, centralstimgray=400, sinamplitude=1023, freq=0.01, sinoffset=0):
+    """
+    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="D:/software/achrolabutils/calibdata/measurements/data", waittime=0.1, patchsize=0.5, centralstimgray=400, sinamplitude=1023, freq=0.01, sinoffset=0):
         BaseMonitorTesting.__init__(self, usingeizo=usingeizo, measuring=measuring, calibrate=calibrate, prefix=prefix, waittime=waittime)
         self.patchsize=patchsize
         self.centralstimgray=centralstimgray
@@ -241,11 +249,11 @@ class CRTTest(BaseMonitorTesting):
         """
         self.window = visual.Window(self.monitorsize, monitor="mymon", color=eizoGS320.encode_color(0,0), winType="pygame", screen=self.monitornum, colorSpace="rgb255", allowGUI=False, units="pix")
 
-        self.bgstim=visual.PatchStim(self.window, tex=None, units='norm', pos=(0, 0), size=2, colorSpace=self.window.colorSpace, color=eizoGS320.encode_color(0, 0))
+        self.bgstim = visual.PatchStim(self.window, tex=None, units='norm', pos=(0, 0), size=2, colorSpace=self.window.colorSpace, color=eizoGS320.encode_color(0, 0))
 
-        self.centralstim=visual.PatchStim(self.window, tex=None, units='norm', pos=(0, 0), size=self.patchsize, colorSpace=self.window.colorSpace, color=eizoGS320.encode_color(self.centralstimgray, self.centralstimgray))
-        self.n=0
-        self.grayvals=[self.graystim, self.centralstimgray]
+        self.centralstim = visual.PatchStim(self.window, tex=None, units='norm', pos=(0, 0), size=self.patchsize, colorSpace=self.window.colorSpace, color=eizoGS320.encode_color(self.centralstimgray, self.centralstimgray))
+        self.n = 0
+        self.grayvals = [self.graystim, self.centralstimgray]
 
     def drawFunction(self):
         """
@@ -331,7 +339,7 @@ class Mondrian(BaseMonitorTesting):
 
     '''
 
-    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="data", waittime=0.1, highgray=1023, lowgray=0, step=1, meanlength=5, weights=None, accuracy=0.05, max_cycles=1000, write=False, seed=1, pngfile=None, imagesize=None, encode=True, saveimage=True):
+    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="D:/software/achrolabutils/calibdata/measurements/data", waittime=0.1, highgray=1023, lowgray=0, step=1, meanlength=5, weights=None, accuracy=0.05, max_cycles=1000, write=False, seed=1, pngfile=None, imagesize=None, encode=True, saveimage=True):
         BaseMonitorTesting.__init__(self, usingeizo=usingeizo, measuring=measuring, calibrate=calibrate, prefix=prefix, waittime=waittime)
         self.grayvals=[highgray, lowgray]
         if imagesize==None:
@@ -438,7 +446,7 @@ class Cornsweet(BaseMonitorTesting):
 
     """
 
-    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="data", waittime=0.1, visualdegrees=None, ppd=128, contrast=1, ramp_width=3, exponent=2.75, mean_lum=511, pngfile=None, encode=True):
+    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="D:/software/achrolabutils/calibdata/measurements/data", waittime=0.1, visualdegrees=None, ppd=128, contrast=1, ramp_width=3, exponent=2.75, mean_lum=511, pngfile=None, encode=True):
         BaseMonitorTesting.__init__(self, usingeizo=usingeizo, measuring=measuring, calibrate=calibrate, prefix=prefix, waittime=waittime)
         self.grayvals=[mean_lum, exponent]
         if pngfile==None:
@@ -534,7 +542,7 @@ class Todorovic(BaseMonitorTesting):
 
     """
 
-    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="data", waittime=0.1, visualdegrees=None, ppd=128, contrast=1, ramp_width=3, exponent=2.75, mean_lum=511, vert_rep=3, horz_rep=5, pngfile=None, encode=True):
+    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="D:/software/achrolabutils/calibdata/measurements/data", waittime=0.1, visualdegrees=None, ppd=128, contrast=1, ramp_width=3, exponent=2.75, mean_lum=511, vert_rep=3, horz_rep=5, pngfile=None, encode=True):
         BaseMonitorTesting.__init__(self, usingeizo=usingeizo, measuring=measuring, calibrate=calibrate, prefix=prefix, waittime=waittime)
         self.grayvals=[mean_lum, exponent]
         if pngfile==None:
@@ -625,7 +633,7 @@ class WhiteIllusion(BaseMonitorTesting):
 
     """
 
-    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="data", waittime=0.1, kind="bmcc", visualdegrees=None, ppd=128, contrast=1, frequency=5, mean_lum=511, start='high', pngfile=None, encode=True):
+    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="D:/software/achrolabutils/calibdata/measurements/data", waittime=0.1, kind="bmcc", visualdegrees=None, ppd=128, contrast=1, frequency=5, mean_lum=511, start='high', pngfile=None, encode=True):
         BaseMonitorTesting.__init__(self, usingeizo=usingeizo, measuring=measuring, calibrate=calibrate, prefix=prefix, waittime=waittime)
         self.grayvals=[mean_lum, contrast]
         if pngfile==None:
@@ -694,7 +702,7 @@ class SquareWave(BaseMonitorTesting):
     ================ ================= =========== ===============================================================================================================================================================================================================================================================
 
     """
-    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="data", waittime=0.1, visualdegrees=None, ppd=512, contrast=1, frequency=5, mean_lum=511, period='ignore', start='high', pngfile=None, encode=True):
+    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="D:/software/achrolabutils/calibdata/measurements/data", waittime=0.1, visualdegrees=None, ppd=512, contrast=1, frequency=5, mean_lum=511, period='ignore', start='high', pngfile=None, encode=True):
         BaseMonitorTesting.__init__(self, usingeizo=usingeizo, measuring=measuring, calibrate=calibrate, prefix=prefix, waittime=waittime)
         self.grayvals=[mean_lum, contrast]
         if pngfile==None:
@@ -752,7 +760,7 @@ class Lines(BaseMonitorTesting):
     ================ ================= =========== ===============================================================================================================================================================================================================================================================
 
     """
-    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="data", waittime=0.1, pngfiles=None, encode=True, monitorsize=None, lowgray=0, highgray=1023, linewidth=8):
+    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="D:/software/achrolabutils/calibdata/measurements/data", waittime=0.1, pngfiles=None, encode=True, monitorsize=None, lowgray=0, highgray=1023, linewidth=8):
         BaseMonitorTesting.__init__(self, usingeizo=usingeizo, measuring=measuring, calibrate=calibrate, prefix=prefix, waittime=waittime)
         self.linepngs=[]
         self.grayvals=[highgray, lowgray]
@@ -882,7 +890,7 @@ class SinGrating(BaseMonitorTesting):
     wave never appears invisible even at very high refresh rates.
     """
 
-    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="data", waittime=0.1, pngfiles=None, encode=True, monitorsize=None, gratingheight=20, sinamplitude=512, sinoffset=512):
+    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="D:/software/achrolabutils/calibdata/measurements/data", waittime=0.1, pngfiles=None, encode=True, monitorsize=None, gratingheight=20, sinamplitude=512, sinoffset=512):
         BaseMonitorTesting.__init__(self, usingeizo=usingeizo, measuring=measuring, calibrate=calibrate, prefix=prefix, waittime=waittime)
         self.grayvals=[sinamplitude, sinoffset]
         self.sinpngs=[]
@@ -983,7 +991,7 @@ class PatchBrightnessTest(BaseMonitorTesting):
 
     '''
 
-    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="data", waittime=0.1, encode=True, monitorsize=None, patchsize=0.5, bggray=511, patchgray=800, patchstep=0.1):
+    def __init__(self, usingeizo=False, measuring=False, calibrate=True,prefix="D:/software/achrolabutils/calibdata/measurements/data", waittime=0.1, encode=True, monitorsize=None, patchsize=0.5, bggray=511, patchgray=800, patchstep=0.1):
         BaseMonitorTesting.__init__(self, usingeizo=usingeizo, measuring=measuring, calibrate=calibrate, prefix=prefix, waittime=waittime)
         self.grayvals=[patchgray, bggray]
         self.patchsize=patchsize
