@@ -1,4 +1,4 @@
-# last mod 2012-11-20 17:10 KS
+# last mod 2013-01-01 12:58 KS
 
 from ctypes import c_float
 from contextlib import closing
@@ -11,11 +11,10 @@ import Image
 import numpy as np
 
 import eizoGS320
-from stimuli import (cornsweet, todorovic, whites_illusion_bmcc,
+from tub_stimuli import (cornsweet, todorovic, whites_illusion_bmcc,
                      whites_illusion_gil, square_wave)
 from achrolab.printing import CalibDataFile
 from achrolab.eyeone import eyeone, constants
-
 
 class BaseMonitorTesting():
     """
