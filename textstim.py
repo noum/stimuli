@@ -26,7 +26,7 @@ class TextStim(object):
     Create and present a text on the Eizo GS320.
 
     """
-    def __init__(self, win, text, pos=(0, 0), color=1023, bg_color=None,
+    def __init__(self, win, text, pos=(0, 0), color=0, bg_color=None,
             wrapWidth=1, height=None):
         """
         Paramters
