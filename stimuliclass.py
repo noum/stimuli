@@ -1,4 +1,4 @@
-# last mod 2013-01-01 13:25 KS
+# last mod 2013-01-29 11:22 KS
 
 from ctypes import c_float
 from psychopy import visual
@@ -249,9 +249,9 @@ class CRTTest(BaseMonitorTesting):
         """
         self.window = visual.Window(self.monitorsize, monitor="mymon", color=eizoGS320.encode_color(0,0), winType="pygame", screen=self.monitornum, colorSpace="rgb255", allowGUI=False, units="pix")
 
-        self.bgstim = visual.PatchStim(self.window, tex=None, units='norm', pos=(0, 0), size=2, colorSpace=self.window.colorSpace, color=eizoGS320.encode_color(0, 0))
+        self.bgstim = visual.GratingStim(self.window, tex=None, units='norm', pos=(0, 0), size=2, colorSpace=self.window.colorSpace, color=eizoGS320.encode_color(0, 0))
 
-        self.centralstim = visual.PatchStim(self.window, tex=None, units='norm', pos=(0, 0), size=self.patchsize, colorSpace=self.window.colorSpace, color=eizoGS320.encode_color(self.centralstimgray, self.centralstimgray))
+        self.centralstim = visual.GratingStim(self.window, tex=None, units='norm', pos=(0, 0), size=self.patchsize, colorSpace=self.window.colorSpace, color=eizoGS320.encode_color(self.centralstimgray, self.centralstimgray))
         self.n = 0
         self.grayvals = [self.graystim, self.centralstimgray]
 
@@ -1011,7 +1011,13 @@ class PatchBrightnessTest(BaseMonitorTesting):
         self.window.flip()
 
     def run(self):
-        self.window = visual.Window(self.monitorsize, monitor="mymon", color=eizoGS320.encode_color(0,0), screen=self.monitornum, colorSpace="rgb255", allowGUI=False, units="pix")
-        self.patch=visual.PatchStim(self.window, tex=None, units='norm', pos=(0, 0), size=self.patchsize, colorSpace=self.window.colorSpace, color=eizoGS320.encode_color(self.patchgray, self.patchgray))
+        self.window = visual.Window(self.monitorsize, monitor="mymon",
+                color=eizoGS320.encode_color(0,0), screen=self.monitornum,
+                colorSpace="rgb255", allowGUI=False, units="pix")
+        self.patch = visual.GratingStim(self.window, tex=None,
+                units='norm', pos=(0, 0), size=self.patchsize,
+                colorSpace=self.window.colorSpace,
+                color=eizoGS320.encode_color(self.patchgray,
+                    self.patchgray))
         self.runningLoop()
 

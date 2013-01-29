@@ -6,7 +6,7 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2012-05-21
-# last mod 2012-11-20 17:03 KS
+# last mod 2013-01-29 11:21 KS
 #
 """
 This module contains a class to create and present an infield surround
@@ -63,16 +63,16 @@ class Stimulus(object):
         x_pos_mid_right = -width_mon_half
         y_pos = 0.
 
-        self.stim_left = visual.PatchStim(self.win, tex=None, units="pix",
+        self.stim_left = visual.GratingStim(self.win, tex=None, units="pix",
                 pos=(x_pos_left, y_pos), size=size_stim, colorSpace="rgb255",
                 color=eizoGS320.encode_color(grey_background, grey_left))
-        self.stim_right = visual.PatchStim(self.win, tex=None, units="pix",
+        self.stim_right = visual.GratingStim(self.win, tex=None, units="pix",
                 pos=(x_pos_right, y_pos), size=size_stim, colorSpace="rgb255",
                 color=eizoGS320.encode_color(grey_right, grey_background))
-        self.stim_mid_l = visual.PatchStim(self.win, tex=None, units="pix",
+        self.stim_mid_l = visual.GratingStim(self.win, tex=None, units="pix",
                 pos=(x_pos_mid_left, y_pos), size=size_stim, colorSpace="rgb255",
                 color=eizoGS320.encode_color(grey_background, grey_mid))
-        self.stim_mid_r = visual.PatchStim(self.win, tex=None, units="pix",
+        self.stim_mid_r = visual.GratingStim(self.win, tex=None, units="pix",
                 pos=(x_pos_mid_right, y_pos), size=size_stim, colorSpace="rgb255",
                 color=eizoGS320.encode_color(grey_mid, grey_background))
 

@@ -9,7 +9,7 @@
 # GPL 3.0+ or (cc) by-sa (http://creativecommons.org/licenses/by-sa/3.0/)
 #
 # created 2013-01-04 NU
-# last mod 2013-01-09 NU
+# last mod 2013-01-29 11:36 KS
 
 """This module contains classes to create and present two infield surround
 stimulus configurations with and without transparent layers with psychopy
@@ -44,23 +44,23 @@ class InfieldSurround(object):
         self.win = win
 
         width_mon_half = 512
-        size_inf  = 80    
-        size_sur  = 454  
+        size_inf  = 80
+        size_sur  = 454
         size_diff = 40
         x_pos_left = size_diff/2.+size_sur/2.-width_mon_half
         x_pos_right = width_mon_half-size_diff/2.-size_sur/2.
         y_pos = 0
 
-        self.sur_left = visual.PatchStim(win, tex=None, units="pix",
+        self.sur_left = visual.GratingStim(win, tex=None, units="pix",
                 pos=(x_pos_left, y_pos), size=size_sur, colorSpace="rgb255",
                 color=eizoGS320.encode_color(sur_left, background))
-        self.sur_right = visual.PatchStim(win, tex=None, units="pix",
+        self.sur_right = visual.GratingStim(win, tex=None, units="pix",
                 pos=(x_pos_right, y_pos), size=size_sur, colorSpace="rgb255",
                 color=eizoGS320.encode_color(background, sur_right))
-        self.inf_left = visual.PatchStim(win, tex=None, units="pix",
+        self.inf_left = visual.GratingStim(win, tex=None, units="pix",
                 pos=(x_pos_left, y_pos), size=size_inf, colorSpace="rgb255",
                 color=eizoGS320.encode_color(inf_left, background))
-        self.inf_right = visual.PatchStim(win, tex=None, units="pix",
+        self.inf_right = visual.GratingStim(win, tex=None, units="pix",
                 pos=(x_pos_right, y_pos), size=size_inf, colorSpace="rgb255",
                 color=eizoGS320.encode_color(background, inf_right))
 
@@ -111,8 +111,8 @@ class InfieldSurroundTrans(object):
         self.win = win
 
         width_mon_half = 512
-        size_inf  = 80    
-        size_sur  = 390  
+        size_inf  = 80
+        size_sur  = 390
         size_diff = 120
         x_pos_right = size_diff/2.+size_sur/2.-width_mon_half
         x_pos_left = width_mon_half-size_diff/2.-size_sur/2.
@@ -127,7 +127,7 @@ class InfieldSurroundTrans(object):
                 color=eizoGS320.encode_color(background, sur_left))
         self.inf_right = visual.GratingStim(win, tex=None, units="pix",
                 pos=(x_pos_right, y_pos), size=size_inf,
-                colorSpace="rgb255", 
+                colorSpace="rgb255",
                 color=eizoGS320.encode_color(inf_right, background))
         self.inf_left = visual.GratingStim(win, tex=None, units="pix",
                 pos=(x_pos_left, y_pos), size=size_inf, colorSpace="rgb255",
@@ -193,8 +193,8 @@ class InfieldSurroundTransBar(object):
         self.win = win
 
         width_mon_half = 512
-        size_inf  = 80    
-        size_sur  = 390  
+        size_inf  = 80
+        size_sur  = 390
         size_diff = 90
         size_trans = (300, 500)
         x_pos_right = size_diff/2.+size_sur/2.-width_mon_half
@@ -210,7 +210,7 @@ class InfieldSurroundTransBar(object):
                 color=eizoGS320.encode_color(background, sur_left))
         self.inf_right = visual.GratingStim(win, tex=None, units="pix",
                 pos=(x_pos_right, y_pos), size=size_inf,
-                colorSpace="rgb255", 
+                colorSpace="rgb255",
                 color=eizoGS320.encode_color(inf_right, background))
         self.inf_left = visual.GratingStim(win, tex=None, units="pix",
                 pos=(x_pos_left, y_pos), size=size_inf, colorSpace="rgb255",
