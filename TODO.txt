@@ -1,13 +1,10 @@
 # created 2012-09-14, NU
-# last worked on 2012-10-30, KS
+# last worked on 2013-01-01, KS
 
 
 ## Things to change in stimuliclass.py
 
 # general (for all classes)
-- prefix= defaulr should be set to
-  "D:/software/achrolabutils/calibdata/measurements/"
-- if measuring=False no data file should be created
 - there is a long pause after eyeone calibration or before stimuli start
   --> try to get rid of it
 

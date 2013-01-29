@@ -26,7 +26,8 @@ class TextStim(object):
     Create and present a text on the Eizo GS320.
 
     """
-    def __init__(self, win, text, pos=(0, 0), color=1023, bg_color=None, wrapWidth=1):
+    def __init__(self, win, text, pos=(0, 0), color=0, bg_color=None,
+            wrapWidth=1, height=None):
         """
         Paramters
         ---------
@@ -43,6 +44,8 @@ class TextStim(object):
                 window will be used.
             wrapWidth : 0..2
                 width of the text in norm units
+            height : float or None
+                height of the character (see psychopy for more details)
 
         """
         self.win = win
@@ -60,10 +63,12 @@ class TextStim(object):
 
         self.stim_left = visual.TextStim(self.win, text, units="pix",
                 pos=(x_pos_left, y_pos), colorSpace="rgb255",
-                color=eizoGS320.encode_color(color, bg_color))
+                color=eizoGS320.encode_color(bg_color, color),
+                height=height, wrapWidth=wrapWidth)
         self.stim_right = visual.TextStim(self.win, text, units="pix",
                 pos=(x_pos_right, y_pos), colorSpace="rgb255",
-                color=eizoGS320.encode_color(color, bg_color))
+                color=eizoGS320.encode_color(color, bg_color),
+                height=height, wrapWidth=wrapWidth)
 
     def draw(self, win=None):
         """
