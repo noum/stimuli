@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
 """
+(c) 2012 TU Berlin
+
+Copy of the generating functions for several visual stimuli from TU Berlin
+vision package.
+
 Module collecting different functions to create visual stimuli.
 
 """
