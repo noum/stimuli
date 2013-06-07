@@ -47,21 +47,21 @@ class InfieldSurround(object):
         size_inf  = 80
         size_sur  = 454
         size_diff = 40
-        x_pos_left = size_diff/2.+size_sur/2.-width_mon_half
-        x_pos_right = width_mon_half-size_diff/2.-size_sur/2.
+        x_pos_right = size_diff/2.+size_sur/2.-width_mon_half
+        x_pos_left = width_mon_half-size_diff/2.-size_sur/2.
         y_pos = 0
 
         self.sur_right = visual.GratingStim(win, tex=None, units="pix",
-                pos=(x_pos_left, y_pos), size=size_sur, colorSpace="rgb255",
+                pos=(x_pos_right, y_pos), size=size_sur, colorSpace="rgb255",
                 color=eizoGS320.encode_color(sur_right, background))
         self.sur_left = visual.GratingStim(win, tex=None, units="pix",
-                pos=(x_pos_right, y_pos), size=size_sur, colorSpace="rgb255",
+                pos=(x_pos_left, y_pos), size=size_sur, colorSpace="rgb255",
                 color=eizoGS320.encode_color(background, sur_left))
         self.inf_right = visual.GratingStim(win, tex=None, units="pix",
-                pos=(x_pos_left, y_pos), size=size_inf, colorSpace="rgb255",
+                pos=(x_pos_right, y_pos), size=size_inf, colorSpace="rgb255",
                 color=eizoGS320.encode_color(inf_right, background))
         self.inf_left = visual.GratingStim(win, tex=None, units="pix",
-                pos=(x_pos_right, y_pos), size=size_inf, colorSpace="rgb255",
+                pos=(x_pos_left, y_pos), size=size_inf, colorSpace="rgb255",
                 color=eizoGS320.encode_color(background, inf_left))
 
     def draw(self, win=None):
